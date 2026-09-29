@@ -112,11 +112,22 @@ namespace CustomControls
 
             if (t == "Paste")
             {
-                string text = Clipboard.GetText().Trim();
+                string text = Clipboard.GetText().Trim().Replace(',', '.');
 
-                if (Regex.IsMatch(text, @"^[+\-*/^]$"))
+                if (Regex.IsMatch(text, @"^[\d+\-*/^.]+$"))
                 {
-                    Input.Text = Input.Text + text.Replace(',', '.');
+                    bool beginntMitOperator = Regex.IsMatch(text, @"^[+*/^]");
+
+                    if (Input.Text == "Fehler" ||
+                        ((Input.Text == "0" || calculated) && !beginntMitOperator))
+                    {
+                        Input.Text = text;
+                    }
+                    else
+                    {
+                        Input.Text += text;
+                    }
+
                     calculated = false;
                 }
                 return;
@@ -316,7 +327,6 @@ namespace CustomControls
             }
 
             if (t == "2" && Input.Text != "0" && Input.Text != string.Empty)
-
             {
 
                 char letztes = Input.Text[Input.Text.Length - 1];
