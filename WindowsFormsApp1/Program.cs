@@ -119,7 +119,8 @@ namespace CustomControls
                 {
                     bool beginntMitOperator = Regex.IsMatch(text, @"^[+*/^]");
 
-                    if (Input.Text == "Fehler" || ((Input.Text == "0" || calculated) && !beginntMitOperator))
+                    if (Input.Text == "Fehler" ||
+                        ((Input.Text == "0" || calculated) && !beginntMitOperator))
                     {
                         Input.Text = text;
                     }
@@ -252,7 +253,22 @@ namespace CustomControls
 
             if (t == "=")
             {
-                MatchCollection treffer = Regex.Matches(Input.Text, @"(?<![\d.,])-?\d+([.,]\d+)?|[+\-*/^]");
+                string Rechnung = Regex.Replace(Input.Text, @"[⁰¹²³⁴⁵⁶⁷⁸⁹]+", Treffer =>
+                {
+                    string Exponent = "";
+
+                    foreach (char Zeichen in Treffer.Value)
+                    {
+                        Exponent += "⁰¹²³⁴⁵⁶⁷⁸⁹".IndexOf(Zeichen).ToString();
+                    }
+
+                    return "^" + Exponent;
+                });
+
+                MatchCollection treffer = Regex.Matches(
+                    Rechnung,
+                    @"(?<![\d.,])-?\d+([.,]\d+)?|[+\-*/^]"
+                );
 
                 List<decimal> zahlen = new List<decimal>();
                 List<string> operatoren = new List<string>();
@@ -326,47 +342,27 @@ namespace CustomControls
                 return;
             }
 
-            if (t == "2" && Input.Text != "0" && Input.Text != string.Empty)
+
+            string Zahlen = "0123456789";
+            string Hochzahlen = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+
+            if (t.Length == 1 && Zahlen.Contains(t) && Input.Text.Length > 0)
             {
+                char Letztes = Input.Text[Input.Text.Length - 1];
 
-                char letztes = Input.Text[Input.Text.Length - 1];
-
-
-                if ("^".Contains(letztes))
-
+                if (Letztes == '^' || Hochzahlen.IndexOf(Letztes) >= 0)
                 {
-
-                    if (Input.Text.Length > 1)
-
+                    if (Letztes == '^')
                     {
-
                         Input.Text = Input.Text.Substring(0, Input.Text.Length - 1);
-
-                        if (Input.Text == "-")
-
-                        {
-
-                            Input.Text = "0";
-
-                        }
-
                     }
 
-                    else
-                    {
-
-                        Input.Text = "0";
-
-                    }
-
-
-                    t = "²";
-
+                    t = Hochzahlen[Zahlen.IndexOf(t)].ToString();
                 }
-
             }
 
             Input.Text = Input.Text + t;
+
         }
     }
 }
