@@ -119,8 +119,7 @@ namespace CustomControls
                 {
                     bool beginntMitOperator = Regex.IsMatch(text, @"^[+*/^]");
 
-                    if (Input.Text == "Fehler" ||
-                        ((Input.Text == "0" || calculated) && !beginntMitOperator))
+                    if (Input.Text == "Fehler" || ((Input.Text == "0" || calculated) && !beginntMitOperator))
                     {
                         Input.Text = text;
                     }
