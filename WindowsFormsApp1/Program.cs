@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Windows.Forms;
-
 namespace CustomControls
 {
     static class Program
@@ -50,8 +49,7 @@ namespace CustomControls
                 "4", "5", "6", "+",
                 "1", "2", "3", "D",
                 "0", ".", "=", "L",
-                "^", "Copy","Paste","Previous"
-            };
+                "^", "Copy","Paste","Previous"            };
 
             for (int i = 0; i < digits.Length; i++)
             {
@@ -73,7 +71,7 @@ namespace CustomControls
             string t = ((Button)sender).Text;
 
             if (t == "Previous" && Previous != string.Empty)
-            { 
+            {
                 Input.Text = Input.Text + Previous;
                 return;
             }
@@ -145,33 +143,58 @@ namespace CustomControls
                 }
             }
 
+
             if (t == "+" || t == "-" || t == "*" || t == "/" || t == "^")
+
             {
-                char letztes = Input.Text[Input.Text.Length - 1];
-                if(Input.Text.Length >= 2)
+
+                if (Input.Text.Length == 0)
+
                 {
-                    char vorletztes = Input.Text[Input.Text.Length - 2];
 
-                    if ("-".Contains(letztes))
-                    {
-                        if (Input.Text == "0")
-                        {
-                            return;
-                        }
-                    }
+                    if (t != "-")
 
-                    if ("-".Contains(vorletztes))
-                    {
                         return;
-                    }
-                }
-               
-                if ("+*/^".Contains(letztes))
-                {
-                    return;
+
                 }
 
-              
+                else
+                {
+
+                    char letztes = Input.Text[Input.Text.Length - 1];
+
+
+                    if ("+-*/^".Contains(letztes))
+
+                    {
+
+                        if (t != "-")
+
+                            return;
+
+
+                        if (letztes == '-')
+
+                        {
+
+                            if (Input.Text.Length < 2)
+
+                                return;
+
+
+                            char vorletztes = Input.Text[Input.Text.Length - 2];
+
+
+                            if ("+-*/^".Contains(vorletztes))
+
+                                return;
+
+                        }
+
+                    }
+
+                }
+
             }
 
             if (Input.Text == "0" && t.Length == 1 && char.IsDigit(t[0]))
@@ -267,13 +290,12 @@ namespace CustomControls
                             return;
                         }
 
-                        decimal ergebnis = operatoren[i] == "*"
-                            ? zahlen[i] * zahlen[i + 1]
+                        decimal ergebnis = operatoren[i] == "*" ? zahlen[i] * zahlen[i + 1]
                             : zahlen[i] / zahlen[i + 1];
 
-                        zahlen[i] = ergebnis;      
-                        zahlen.RemoveAt(i + 1);    
-                        operatoren.RemoveAt(i);  
+                        zahlen[i] = ergebnis;
+                        zahlen.RemoveAt(i + 1);
+                        operatoren.RemoveAt(i);
                     }
                     else
                     {
@@ -291,6 +313,47 @@ namespace CustomControls
                 Previous = Input.Text;
                 calculated = true;
                 return;
+            }
+
+            if (t == "2" && Input.Text != "0" && Input.Text != string.Empty)
+
+            {
+
+                char letztes = Input.Text[Input.Text.Length - 1];
+
+
+                if ("^".Contains(letztes))
+
+                {
+
+                    if (Input.Text.Length > 1)
+
+                    {
+
+                        Input.Text = Input.Text.Substring(0, Input.Text.Length - 1);
+
+                        if (Input.Text == "-")
+
+                        {
+
+                            Input.Text = "0";
+
+                        }
+
+                    }
+
+                    else
+                    {
+
+                        Input.Text = "0";
+
+                    }
+
+
+                    t = "²";
+
+                }
+
             }
 
             Input.Text = Input.Text + t;
