@@ -119,8 +119,7 @@ namespace CustomControls
                 {
                     bool beginntMitOperator = Regex.IsMatch(text, @"^[+*/^]");
 
-                    if (Input.Text == "Fehler" ||
-                        ((Input.Text == "0" || calculated) && !beginntMitOperator))
+                    if (Input.Text == "Fehler" || ((Input.Text == "0" || calculated) && !beginntMitOperator))
                     {
                         Input.Text = text;
                     }
@@ -157,11 +156,9 @@ namespace CustomControls
 
 
             if (t == "+" || t == "-" || t == "*" || t == "/" || t == "^")
-
             {
 
                 if (Input.Text.Length == 0)
-
                 {
 
                     if (t != "-")
@@ -175,18 +172,15 @@ namespace CustomControls
 
                     char letztes = Input.Text[Input.Text.Length - 1];
 
-
                     if ("+-*/^".Contains(letztes))
-
                     {
 
                         if (t != "-")
-
+                        {
                             return;
-
+                        }
 
                         if (letztes == '-')
-
                         {
 
                             if (Input.Text.Length < 2)
@@ -265,10 +259,7 @@ namespace CustomControls
                     return "^" + Exponent;
                 });
 
-                MatchCollection treffer = Regex.Matches(
-                    Rechnung,
-                    @"(?<![\d.,])-?\d+([.,]\d+)?|[+\-*/^]"
-                );
+                MatchCollection treffer = Regex.Matches(Rechnung, @"(?<![\d.,])-?\d+([.,]\d+)?|[+\-*/^]");
 
                 List<decimal> zahlen = new List<decimal>();
                 List<string> operatoren = new List<string>();
