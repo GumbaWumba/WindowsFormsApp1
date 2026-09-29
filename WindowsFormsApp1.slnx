@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ConsoleApp1/ConsoleApp1.csproj" Id="ecde492c-3b6e-4564-a5ce-1c197380d4e8" />
+  <Project Path="WindowsFormsApp1/WindowsFormsApp1.csproj" Id="3359ed2d-be51-4fb9-ba02-a00f6cf89ac6" />
+</Solution>
