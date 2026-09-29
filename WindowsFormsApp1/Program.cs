@@ -162,9 +162,9 @@ namespace CustomControls
                 {
 
                     if (t != "-")
-
+                    {
                         return;
-
+                    }
                 }
 
                 else
@@ -184,17 +184,16 @@ namespace CustomControls
                         {
 
                             if (Input.Text.Length < 2)
-
+                            {
                                 return;
-
+                            }
 
                             char vorletztes = Input.Text[Input.Text.Length - 2];
 
-
                             if ("+-*/^".Contains(vorletztes))
-
+                            {
                                 return;
-
+                            }
                         }
 
                     }
